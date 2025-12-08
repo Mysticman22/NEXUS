@@ -6,68 +6,49 @@ const SigninForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const auth = getAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError('');
-
-    const auth = getAuth(); // Ensure Firebase is initialized in your app
-
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      
-      // Optional: Force token refresh to ensure we have latest roles/claims
-      await userCredential.user.getIdToken(true);
-      
-      // Redirect based on generic success
-      // Logic for Admin vs User routing happens in the Dashboard component or router
+      await signInWithEmailAndPassword(auth, email, password);
+      // AuthContext will detect login and App.jsx will redirect based on role
       navigate('/dashboard'); 
     } catch (err) {
-      console.error(err);
-      setError('Invalid email or password.');
-    } finally {
-      setLoading(false);
+      setError('Invalid Email or Password');
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded shadow-lg w-full max-w-sm">
-        <h2 className="text-2xl font-bold mb-6 text-center text-blue-900">Nexus Login</h2>
-
-        {error && <div className="bg-red-100 text-red-700 p-2 mb-4 rounded text-sm">{error}</div>}
-
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded shadow-md w-96">
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Nexus Login</h2>
+        {error && <p className="text-red-500 text-sm mb-4 text-center">{error}</p>}
+        
         <form onSubmit={handleLogin} className="space-y-4">
-          <input
-            type="email"
-            placeholder="Email Address"
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
-            required
+          <input 
+            type="email" 
+            placeholder="Email" 
+            onChange={(e) => setEmail(e.target.value)} 
+            className="w-full p-2 border rounded"
+            required 
           />
-          <input
-            type="password"
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
-            required
+          <input 
+            type="password" 
+            placeholder="Password" 
+            onChange={(e) => setPassword(e.target.value)} 
+            className="w-full p-2 border rounded"
+            required 
           />
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 disabled:bg-gray-400"
-          >
-            {loading ? 'Signing In...' : 'Sign In'}
+          <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+            Sign In
           </button>
         </form>
 
-        <div className="mt-4 text-center">
-          <span className="text-gray-600 text-sm">New to Nexus? </span>
-          <Link to="/signup" className="text-blue-600 text-sm hover:underline">Create Account</Link>
-        </div>
+        <p className="mt-4 text-sm text-center">
+          New Employee? <Link to="/signup" className="text-blue-600">Register here</Link>
+        </p>
       </div>
     </div>
   );
