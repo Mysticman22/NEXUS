@@ -1,8 +1,8 @@
-// File: src/config/firebase.js
+// File: client/src/config/firebase.js
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore"; // Added Firestore
 
-// These use Vite environment variables (VITE_ prefix)
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -15,5 +15,6 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Export authentication to be used in NexusAuth.jsx
+// Export Auth and Database services
 export const auth = getAuth(app);
+export const db = getFirestore(app);
