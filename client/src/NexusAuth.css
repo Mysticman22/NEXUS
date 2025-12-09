@@ -1,0 +1,293 @@
+/* =========================
+   Nexus Auth - Complete CSS
+   Paste this into NexusAuth.css
+   ========================= */
+
+/* Reset & box-sizing (prevents overflow from padding/border) */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+  background: #0f172a;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden; /* prevents accidental horizontal scrolling */
+}
+
+/* 1. Container & Background */
+.nexus-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0f172a; /* Dark Navy Background */
+  position: relative;
+  overflow: hidden;
+  padding: 2rem 1rem; /* safe breathing room on small screens */
+}
+
+/* 2. Abstract Glowing Orbs (Background Effects) */
+.shape {
+  position: absolute;
+  filter: blur(80px);
+  z-index: 0;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.shape-1 {
+  top: -100px;
+  left: -100px;
+  width: 300px;
+  height: 300px;
+  background: #3b82f6; /* Blue */
+  border-radius: 50%;
+  animation: float 8s infinite alternate;
+}
+
+.shape-2 {
+  bottom: -50px;
+  right: -50px;
+  width: 350px;
+  height: 350px;
+  background: #8b5cf6; /* Purple */
+  border-radius: 50%;
+  animation: float 10s infinite alternate-reverse;
+}
+
+@keyframes float {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(30px, 30px); }
+}
+
+/* 3. Glass Card */
+.glass-card {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 420px;      /* prevents overflow on wide screens */
+  margin: 0 auto;        /* explicit centering */
+  padding: 3rem;
+  background: rgba(255, 255, 255, 0.05); /* Very transparent white */
+  backdrop-filter: blur(16px); /* The frosted glass effect */
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-sizing: border-box;
+}
+
+/* 4. Typography */
+.card-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 0.5rem 0;
+  background: linear-gradient(to right, #fff, #94a3b8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  text-align: center;
+  color: #94a3b8;
+  margin-bottom: 1.75rem;
+  font-size: 0.95rem;
+}
+
+/* 5. Inputs */
+.input-group {
+  position: relative;
+  margin-bottom: 1.25rem;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* center-only input-group variant used by OTP shield (JSX adds inline styles too) */
+.input-group.center {
+  text-align: center;
+}
+
+/* SVG icons (lucide-react renders <svg>) */
+.input-group svg {
+  position: absolute;
+  left: 12px; /* small left gap */
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  z-index: 2;
+  pointer-events: none;
+  width: 18px;
+  height: 18px;
+}
+
+/* Inputs and selects */
+.input-group input,
+.input-group select,
+.input-group textarea {
+  width: 100%;
+  padding: 14px 14px 14px 48px; /* left padding reserves space for icon */
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  color: white;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  outline: none;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* custom-select specifically targeted (your JSX uses className="custom-select") */
+.custom-select {
+  width: 100%;
+  padding: 14px 40px 14px 48px; /* extra right padding for arrow */
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  box-sizing: border-box;
+}
+
+/* add select arrow styling (pure css arrow) */
+.custom-select {
+  background-image: linear-gradient(45deg, rgba(255,255,255,0.08) 50%, transparent 50%),
+                    linear-gradient(135deg, transparent 50%, rgba(255,255,255,0.08) 50%);
+  background-position: calc(100% - 18px) calc(1em + 2px), calc(100% - 13px) calc(1em + 2px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+/* Focus states */
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus,
+.custom-select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+  background: rgba(15, 23, 42, 0.82);
+}
+
+/* Placeholder color */
+.input-group input::placeholder,
+.input-group textarea::placeholder {
+  color: #64748b;
+}
+
+/* 6. Button */
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  margin-top: 1rem;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+  transition: box-shadow 0.3s ease, transform 0.12s ease;
+  box-sizing: border-box;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
+  transform: translateY(-1px);
+}
+
+/* 7. Footer & Link */
+.card-footer {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+.link-text {
+  color: #60a5fa;
+  cursor: pointer;
+  font-weight: 500;
+  margin-left: 5px;
+  transition: color 0.2s;
+}
+
+.link-text:hover {
+  color: #93c5fd;
+  text-decoration: underline;
+}
+
+/* OTP special input styling (centered code input) */
+.input-otp {
+  padding: 12px;
+  letter-spacing: 6px;
+  font-size: 1.15rem;
+  text-align: center;
+  width: 100%;
+  max-width: 260px;
+  margin: 0 auto;
+  display: block;
+}
+
+/* Loader Animation */
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Tiny helper: small text and spacing */
+.small {
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+/* =========================
+   Responsive adjustments
+   ========================= */
+@media (max-width: 480px) {
+  .nexus-container { padding: 1.2rem; }
+  .glass-card {
+    padding: 1.6rem;
+    border-radius: 14px;
+  }
+  .card-header h1 { font-size: 1.6rem; }
+  .subtitle { font-size: 0.9rem; margin-bottom: 1rem; }
+  .input-group input,
+  .input-group select,
+  .input-group textarea { padding: 12px 12px 12px 44px; font-size: 0.95rem; }
+  .custom-select { padding: 12px 36px 12px 44px; }
+  .btn-primary { padding: 12px; font-size: 0.95rem; }
+  .input-otp { max-width: 220px; letter-spacing: 5px; font-size: 1.05rem; }
+}
+
+/* Safety cap: if something still causes overflow, allow it to wrap */
+.glass-card * {
+  max-width: 100%;
+  word-wrap: break-word;
+}

@@ -1,45 +1,21 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import SigninForm from './components/auth/SigninForm';
-import SignupForm from './components/auth/SignupForm';
-import AdminDash from './components/dashboard/AdminDash';
-import UserDash from './components/dashboard/UserDash';
-import ProtectedRoute from './components/auth/ProtectedRoute';
-
-// Layout Component to handle default redirects based on role
-import useAuth from './hooks/useAuth';
-
-const RoleBasedRedirect = () => {
-  const { userRole } = useAuth();
-  if (userRole === 'admin') return <Navigate to="/admin" />;
-  return <Navigate to="/dashboard" />;
-};
+import React, { useState } from 'react';
+import NexusAuth from './NexusAuth';
+import NexusSearch from './NexusSearch'; // Import the new page
 
 function App() {
+  // State to track if user is logged in
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/login" element={<SigninForm />} />
-        <Route path="/signup" element={<SignupForm />} />
-        
-        {/* Root Redirect */}
-        <Route path="/" element={<Navigate to="/login" />} />
-
-        {/* --- Protected Routes --- */}
-        
-        {/* 1. General User Dashboard (Accessible by All Logged In Users) */}
-        <Route element={<ProtectedRoute />}>
-           <Route path="/dashboard" element={<UserDash />} />
-        </Route>
-
-        {/* 2. Admin Dashboard (Accessible ONLY by Directors/Admins) */}
-        <Route element={<ProtectedRoute allowedRoles={['admin', 'Director']} />}>
-           <Route path="/admin" element={<AdminDash />} />
-        </Route>
-
-      </Routes>
-    </BrowserRouter>
+    <div>
+      {isAuthenticated ? (
+        // If logged in, show Search
+        <NexusSearch />
+      ) : (
+        // If NOT logged in, show Auth and pass the "Success" function
+        <NexusAuth onLoginSuccess={() => setIsAuthenticated(true)} />
+      )}
+    </div>
   );
 }
 
