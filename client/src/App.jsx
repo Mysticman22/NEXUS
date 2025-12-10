@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
 import NexusAuth from './NexusAuth';
-import NexusSearch from './NexusSearch'; // Import the new page
+import NexusSearch from './NexusSearch'; // We will build this next, or comment it out for now
 
 function App() {
-  // State to track if user is logged in
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
 
   return (
     <div>
-      {isAuthenticated ? (
-        // If logged in, show Search
-        <NexusSearch />
+      {!user ? (
+        // If not logged in, show Auth Screen
+        <NexusAuth onLoginSuccess={(user) => setUser(user)} />
       ) : (
-        // If NOT logged in, show Auth and pass the "Success" function
-        <NexusAuth onLoginSuccess={() => setIsAuthenticated(true)} />
+        // If logged in, show Dashboard (Placeholder for now)
+        <div style={{ color: 'white', textAlign: 'center', marginTop: '50px' }}>
+          <h1>Welcome, {user.displayName}</h1>
+          <p>Department: {user.department || "Employee"}</p>
+        </div>
       )}
     </div>
   );
