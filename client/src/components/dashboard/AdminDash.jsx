@@ -9,8 +9,8 @@ const AdminDash = () => {
     
     // Initialize Cloud Functions and the callable function
     const functions = getFunctions();
-    const approveUserCallable = httpsCallable(functions, 'approveUser');
-
+    const approveUserCallable  = httpsCallable(functions, 'approveUser');
+   
     useEffect(() => {
         // Query Firestore for users where status is PENDING
         const q = query(collection(db, "users"), where("status", "==", "PENDING"));
